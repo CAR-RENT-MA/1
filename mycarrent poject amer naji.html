@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Car - Rent a Car in Morocco</title>
+    
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #e67e22;
+            --dark: #2c3e50;
+            --light: #f9f9f9;
+        }
+
+        body { color: #333; line-height: 1.6; }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 5%; background: var(--dark); color: white;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        nav .logo { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; }
+
+        .hero {
+            height: 70vh;
+            background: #34495e url('https://images.unsplash.com/photo-1509064619358-8fb3ec29a67a?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            position: relative; display: flex; justify-content: center; align-items: center;
+            text-align: center; color: white;
+        }
+
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+
+        .hero-content { position: relative; z-index: 1; width: 90%; max-width: 800px; }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .highlight { color: var(--primary); }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; }
+
+        .booking-form {
+            background: white; padding: 20px; border-radius: 10px;
+            display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: flex-end;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); margin-top: 30px;
+        }
+
+        .form-group { display: flex; flex-direction: column; text-align: left; }
+
+        .form-group label { font-weight: bold; color: var(--dark); margin-bottom: 5px; font-size: 0.8rem; }
+
+        .form-group select, .form-group input { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+
+        .btn {
+            padding: 12px 25px; background: var(--primary); color: white;
+            border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem;
+        }
+        .btn:hover { background-color: #d35400; }
+
+        .section { padding: 4rem 5%; text-align: center; }
+        .section h2 { font-size: 2.5rem; color: var(--dark); margin-bottom: 10px; }
+        .subtitle { color: #666; margin-bottom: 3rem; font-size: 1.1rem; }
+        .bg-light { background-color: var(--light); }
+
+        .city-slider { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; }
+
+        .city-card {
+            min-width: 280px; height: 400px; border-radius: 15px;
+            display: flex; align-items: flex-end; padding: 20px; color: white;
+            background-size: cover; background-position: center;
+            box-shadow: inset 0 -100px 50px rgba(0,0,0,0.7);
+        }
+        .city-card h3 { font-size: 1.8rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+
+        .casablanca { background-image: url('https://images.unsplash.com/photo-1578330107255-a5065c7f0783?auto=format&fit=crop&w=500&q=80'); background-color: #2980b9; }
+        .marrakech { background-image: url('https://images.unsplash.com/photo-1597212618440-806262de498b?auto=format&fit=crop&w=500&q=80'); background-color: #c0392b; }
+        .tangier { background-image: url('https://images.unsplash.com/photo-1621532890408-7a5e8c15694c?auto=format&fit=crop&w=500&q=80'); background-color: #16a085; }
+        .agadir { background-image: url('https://images.unsplash.com/photo-1549410113-f61f7480a823?auto=format&fit=crop&w=500&q=80'); background-color: #f39c12; }
+
+        .car-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;}
+
+        .car-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: left; transition: transform 0.3s;}
+        .car-card:hover { transform: translateY(-10px); }
+
+        .car-image { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+
+        .car-info { padding: 15px; }
+        .car-info h3 { color: var(--dark); margin-bottom: 5px; }
+        .car-type { color: #7f8c8d; font-size: 0.9rem; margin-bottom: 15px; }
+
+        .price-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+        .price { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .price span { font-size: 0.9rem; color: #999; font-weight: normal; }
+
+        .btn-small { padding: 8px 12px; background: var(--dark); color: white; border: none; border-radius: 4px; cursor: pointer; transition: 0.3s;}
+        .btn-small:hover { background-color: var(--primary); }
+
+        footer { background: var(--dark); color: white; padding: 3rem 5%; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; max-width: 1200px; margin: 0 auto;}
+        .footer-brand h2 { color: var(--primary); margin-bottom: 10px; }
+        .footer-contact h3 { margin-bottom: 15px; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 5px; }
+        .footer-contact p { margin-bottom: 10px; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .booking-form { flex-direction: column; align-items: stretch; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🚗 My Car</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#cities">Destinations</a></li>
+            <li><a href="#fleet">Our Cars</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Drive Morocco with <span class="highlight">My Car</span></h1>
+            <p>Reliable, affordable, and comfortable car rentals across the country.</p>
+            
+            <div class="booking-form">
+                <div class="form-group">
+                    <label>Pick-up City</label>
+                    <select>
+                        <option>Casablanca</option>
+                        <option>Marrakech</option>
+                        <option>Tangier</option>
+                        <option>Agadir</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Pick-up Date</label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>Drop-off Date</label>
+                    <input type="date">
+                </div>
+                <button class="btn">Find a Car</button>
+            </div>
+        </div>
+    </header>
+
+    <section id="cities" class="section">
+        <h2>Explore Our Locations</h2>
+        <p class="subtitle">Pick up your car from major cities in Morocco</p>
+        
+        <div class="city-slider">
+            <div class="city-card casablanca"><h3>Casablanca</h3></div>
+            <div class="city-card marrakech"><h3>Marrakech</h3></div>
+            <div class="city-card tangier"><h3>Tangier</h3></div>
+            <div class="city-card agadir"><h3>Agadir</h3></div>
+        </div>
+    </section>
+
+    <section id="fleet" class="section bg-light">
+        <h2>Choose Your Car</h2>
+        <p class="subtitle">Find the perfect vehicle for your Moroccan road trip.</p>
+        
+        <div class="car-grid">
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80" alt="Dacia Logan" class="car-image">
+                <div class="car-info">
+                    <h3>Dacia Logan</h3>
+                    <p class="car-type">Economy • Manual • 5 Seats</p>
+                    <div class="price-row">
+                        <span class="price">250 MAD <span>/ day</span></span>
+                        <button class="btn-small">Rent Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1621236304193-41005b6379f8?auto=format&fit=crop&w=600&q=80" alt="Dacia Duster" class="car-image">
+                <div class="car-info">
+                    <h3>Dacia Duster (2017)</h3>
+                    <p class="car-type">SUV • Manual • 5 Seats</p>
+                    <div class="price-row">
+                        <span class="price">350 MAD <span>/ day</span></span>
+                        <button class="btn-small">Rent Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1606016159991-fee4b28c1951?auto=format&fit=crop&w=600&q=80" alt="Range Rover Velar" class="car-image">
+                <div class="car-info">
+                    <h3>Range Rover Velar</h3>
+                    <p class="car-type">Luxury SUV • Automatic • 5 Seats</p>
+                    <div class="price-row">
+                        <span class="price">1,800 MAD <span>/ day</span></span>
+                        <button class="btn-small">Rent Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="car-card">
+                <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=600&q=80" alt="Ferrari" class="car-image">
+                <div class="car-info">
+                    <h3>Ferrari F8</h3>
+                    <p class="car-type">Supercar • Automatic • 2 Seats</p>
+                    <div class="price-row">
+                        <span class="price">12,000 MAD <span>/ day</span></span>
+                        <button class="btn-small">Rent Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2>My Car</h2>
+                <p>Your trusted car rental partner in Morocco.</p>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>📧 Email: <a href="mailto:mycarrent@gmail.com" style="color:white;">mycarrent@gmail.com</a></p>
+                <p>📘 Facebook: <a href="#" style="color:white;">@mycar</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
